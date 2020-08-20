@@ -433,7 +433,21 @@ export default class SyncController extends videojs.EventTarget {
 
     if (segmentInfo.timestampOffset !== null) {
       segmentInfo.timestampOffset -= compositionStartTime;
-    }
+      console.log("timestampOffset:"+segmentInfo.timestampOffset)
+      if (segment.map.videoTrackIds.length > 0) {
+        console.log("(video)");
+        if (this.syncOffset != undefined)
+            segmentInfo.timestampOffset = this.syncOffset;
+        else
+            this.syncOffset = segmentInfo.timestampOffset;
+      } else {
+        console.log("(audio)");
+        if (this.syncOffset != undefined)
+            segmentInfo.timestampOffset = this.syncOffset;
+        else
+            this.syncOffset = segmentInfo.timestampOffset;
+      }
+  }
 
     return {
       start: compositionStartTime,
